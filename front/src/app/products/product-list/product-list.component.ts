@@ -42,10 +42,7 @@ export class ProductListComponent implements OnInit {
       pageIndex: this.defaultPageIndex
     };
 
-    if (!this.authService.isAdmin()) {
-      this.filters.statuses = ['active'];
-      this.filters.minStock = 1;
-    }
+    this.setDefaultUserFilters();
 
     this.loadData();
   }
@@ -73,6 +70,8 @@ export class ProductListComponent implements OnInit {
     this.filters.minPrice = undefined;
     this.filters.maxPrice = undefined;
 
+    this.setDefaultUserFilters();
+
     this.loadProducts(true);
   }
 
@@ -95,6 +94,13 @@ export class ProductListComponent implements OnInit {
 
   goToShoppingCart(): void {
     this.router.navigate(['/shopping-cart']);
+  }
+
+  private setDefaultUserFilters(): void {
+    if (!this.authService.isAdmin()) {
+      this.filters.statuses = ['active'];
+      this.filters.minStock = 1;
+    }
   }
 
   private loadData() {

@@ -1,0 +1,1 @@
+export const getRoleName = (code: string): string => code.charAt(0).toUpperCase() + code.slice(1);

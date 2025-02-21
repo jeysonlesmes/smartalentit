@@ -1,0 +1,47 @@
+<div>
+  <h1>Profile</h1>
+</div>
+
+<div class="mt-4" *ngIf="user">
+  <nz-card [nzTitle]="!editing ? user.name : 'Editing'" [nzExtra]="extraTemplate">
+    <app-user-info
+      *ngIf="!editing"
+      [user]="user"
+      [showRole]="false"
+    ></app-user-info>
+
+    <app-user-form
+      *ngIf="editing"
+      [user]="user"
+      (save)="onEditChange($event)"
+    ></app-user-form>
+  </nz-card>
+
+  <ng-template #extraTemplate>
+    <div class="d-flex column-gap-1">
+      <button
+        *ngIf="!editing"
+        nz-button
+        nzType="default"
+        nzShape="round"
+        class="d-flex align-items-center justify-content-center"
+        (click)="edit()"
+      >
+        <span nz-icon nzType="edit"></span>
+        Edit
+      </button>
+
+      <button
+        *ngIf="editing"
+        nz-button
+        nzType="default"
+        nzShape="round"
+        class="d-flex align-items-center justify-content-center"
+        (click)="cancelEdition()"
+      >
+        <span nz-icon nzType="close-circle"></span>
+        Cancel edition
+      </button>
+    </div>
+  </ng-template>
+</div>

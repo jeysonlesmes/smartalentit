@@ -1,0 +1,135 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Shopping cart</h1>
+</div>
+
+<div class="mt-4">
+  <nz-empty
+    *ngIf="!shoppingCartService.totalProducts()"
+    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+    [nzNotFoundContent]="contentTpl"
+    [nzNotFoundFooter]="footerTpl"
+  >
+    <ng-template #contentTpl>
+      <span>
+        There are no products added to the shopping cart yet!
+      </span>
+    </ng-template>
+    <ng-template #footerTpl>
+      <div class="d-flex justify-content-center">
+        <a
+          nz-button
+          nzType="primary"
+          routerLink="/products"
+          class="d-flex align-items-center justify-content-center text-decoration-none"
+        >
+          <span nz-icon nzType="plus"></span>
+          Add products now!
+        </a>
+      </div>
+    </ng-template>
+  </nz-empty>
+
+  <ng-container *ngIf="shoppingCartService.totalProducts()">
+    <div nz-col nzSpan="24" nzSm="12">
+      <h5>Total</h5>
+      <p>
+        {{ shoppingCartService.total() | currency }}
+      </p>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="24">
+      <h5>Products</h5>
+      <div>
+        <nz-table
+          #basicTable
+          [nzData]="products"
+          [nzFrontPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Unit price</th>
+              <th>Total price</th>
+              <th width="200px"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of basicTable.data">
+              <td>
+                <a
+                  [routerLink]="'/products/' + product.id"
+                  target="_blank"
+                >{{ product.name }}</a>
+              </td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.price | currency }}</td>
+              <td>{{ (product.quantity * product.price) | currency }}</td>
+              <td>
+                <div class="d-flex flex-row column-gap-1 justify-content-start">
+                  <button        
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    (click)="add(product)"
+                  >
+                    <span nz-icon nzType="plus"></span>
+                  </button>
+  
+                  <button              
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    nzDanger
+                    (click)="remove(product)"
+                  >
+                    <span nz-icon nzType="minus"></span>
+                  </button>
+  
+                  <button       
+                    *ngIf="product.quantity > 1"       
+                    nz-button
+                    nzShape="circle"
+                    (click)="delete(product)"
+                  >
+                    <span nz-icon nzType="delete"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end column-gap-1">
+      <button
+        nz-button
+        nz-popconfirm
+        [nzPopconfirmTitle]="'Are you sure you want to empty the shopping cart?'"
+        nzOkText="Sure, empty cart"
+        nzCancelText="Cancel"
+        [nzOkDanger]="true"
+        (nzOnConfirm)="shoppingCartService.empty()"
+        nzType="primary"
+        nzShape="round"
+        nzDanger
+        class="d-flex align-items-center justify-content-center"
+      >
+        <span nz-icon nzType="delete"></span>
+        Empty cart
+      </button>
+
+      <button
+        nz-button
+        nzType="primary"
+        nzShape="round"
+        class="d-flex align-items-center justify-content-center"
+        (click)="createInvoice()"
+      >
+        <span nz-icon nzType="dollar"></span>
+        Generate purchase
+      </button>
+    </div>
+  </ng-container>
+</div>

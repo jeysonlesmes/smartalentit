@@ -1,0 +1,9 @@
+::ng-deep {
+  nz-select-top-control {
+    width: 100%;
+  }
+
+  li[nz-pagination] a, li[nz-pagination-item] a {
+    text-decoration: unset;
+  }
+}

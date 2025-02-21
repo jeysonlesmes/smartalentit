@@ -1,0 +1,20 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Create user</h1>
+
+  <a
+    nz-button
+    nzType="link"
+    class="d-flex align-items-center justify-content-center text-decoration-none"
+    routerLink="/users"
+  >
+    <span nz-icon nzType="double-left"></span>
+    Back
+  </a>
+</div>
+
+<div class="mt-4">
+  <app-user-form
+    [setRole]="true"
+    (save)="onUserCreate($event)"
+  ></app-user-form>
+</div>

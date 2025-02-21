@@ -1,0 +1,29 @@
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="assets/logo-blue.png" class="logo" />
+    </div>
+
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your email!">
+          <nz-input-group nzPrefixIcon="mail">
+            <input type="text" nz-input formControlName="email" placeholder="Email" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" [disabled]="validateForm.invalid">Log in</button>
+      Or
+      <a class="link-underline" routerLink="/auth/sign-up">register now!</a>
+    </form>
+  </div>
+</div>

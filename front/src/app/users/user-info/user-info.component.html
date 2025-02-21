@@ -1,0 +1,36 @@
+<div nz-row [nzGutter]="[16, 16]" *ngIf="user">
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Name</h5>
+    <p>
+      {{ user.name }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Email</h5>
+    <p>
+      {{ user.email }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12" *ngIf="showRole">
+    <h5>Role</h5>
+    <p>
+      {{ getRoleName(user.role.code) }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Creation date</h5>
+    <p>
+      {{ user.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Last modification date</h5>
+    <p>
+      {{ user.updatedAt | date: "yyyy-MM-dd HH:mm:ss" }}
+    </p>
+  </div>
+</div>

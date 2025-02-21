@@ -1,0 +1,108 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>User's details</h1>
+
+  <a
+    nz-button
+    nzType="link"
+    class="d-flex align-items-center justify-content-center text-decoration-none"
+    routerLink="/users"
+  >
+    <span nz-icon nzType="double-left"></span>
+    Back
+  </a>
+</div>
+
+<div class="mt-4" *ngIf="user">
+  <nz-card [nzTitle]="!editing ? user.name : 'Editing'" [nzExtra]="extraTemplate">
+    <ng-container *ngIf="!showAnalytics">
+      <app-user-info
+        *ngIf="!editing"
+        [user]="user"
+      ></app-user-info>
+  
+      <app-user-form
+        *ngIf="editing"
+        [user]="user"
+        [setRole]="true"
+        (save)="onEditChange($event)"
+      ></app-user-form>
+    </ng-container>
+
+    <ng-container *ngIf="showAnalytics">
+      <app-analytics [user]="user"></app-analytics>
+    </ng-container>
+  </nz-card>
+
+  <ng-template #extraTemplate>
+    <div class="d-flex column-gap-1">
+      <ng-container *ngIf="!showAnalytics && !editing && authService.user()!.id !== user.id">
+        <button
+          nz-button
+          nzType="default"
+          nzShape="round"
+          class="d-flex align-items-center justify-content-center"
+          (click)="edit()"
+        >
+          <span nz-icon nzType="edit"></span>
+          Edit
+        </button>
+    
+        <button
+          nz-button
+          nz-popconfirm
+          [nzPopconfirmTitle]="'Are you sure you want to delete the user: ' + user.name + '?'"
+          nzOkText="Sure, delete"
+          nzCancelText="Cancel"
+          [nzOkDanger]="true"
+          (nzOnConfirm)="delete(user.id)"
+          nzType="primary"
+          nzShape="round"
+          nzDanger
+          class="d-flex align-items-center justify-content-center"
+        >
+          <span nz-icon nzType="delete"></span>
+          Delete
+        </button>
+      </ng-container>
+
+      <ng-container
+        *ngIf="!editing && !showAnalytics && authService.isAdmin() && user.role.code === 'user'"
+      >
+        <button
+          nz-button
+          nzType="default"
+          nzShape="round"
+          class="d-flex align-items-center justify-content-center"
+          (click)="analytics()"
+        >
+          <span nz-icon nzType="area-chart"></span>
+          Analytics
+        </button>
+      </ng-container>
+
+      <button
+        *ngIf="editing"
+        nz-button
+        nzType="default"
+        nzShape="round"
+        class="d-flex align-items-center justify-content-center"
+        (click)="cancelEdition()"
+      >
+        <span nz-icon nzType="close-circle"></span>
+        Cancel edition
+      </button>
+
+      <button
+        *ngIf="showAnalytics"
+        nz-button
+        nzType="default"
+        nzShape="round"
+        class="d-flex align-items-center justify-content-center"
+        (click)="closeAnalytics()"
+      >
+        <span nz-icon nzType="close-circle"></span>
+        Close analytics
+      </button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,52 @@
+<div nz-row [nzGutter]="[16, 16]" *ngIf="product">
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Name</h5>
+    <p>
+      {{ product.name }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Description</h5>
+    <p>
+      {{ product.description }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Price</h5>
+    <p>
+      {{ product.price | currency }}
+    </p>
+  </div>  
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Stock</h5>
+    <p>
+      {{ product.stock }}
+    </p>
+  </div>
+
+  <ng-container *ngIf="authService.isAdmin()">
+    <div nz-col nzSpan="24" nzSm="12">
+      <h5>Status</h5>
+      <p>
+        {{ product.status.name }}
+      </p>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+    <h5>Creation date</h5>
+    <p>
+      {{ product.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}
+    </p>
+  </div>
+
+  <div nz-col nzSpan="24" nzSm="12">
+    <h5>Last modification date</h5>
+    <p>
+      {{ product.updatedAt | date: "yyyy-MM-dd HH:mm:ss" }}
+    </p>
+  </div>
+  </ng-container>
+</div>

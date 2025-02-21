@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <div class="sign-up-container">
+    <div class="logo-container">
+      <img src="assets/logo-blue.png" class="logo" />
+    </div>
+
+    <form nz-form [formGroup]="validateForm" class="sign-up-form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your name!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="name" placeholder="Name" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your email!">
+          <nz-input-group nzPrefixIcon="mail">
+            <input type="text" nz-input formControlName="email" placeholder="Email" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="passwordErrorTpl">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+
+        <ng-template #passwordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your Password!
+          </ng-container>
+
+          <ng-container *ngIf="!control.hasError('required') && control.hasError('invalidPassword')">
+            {{ control.getError('invalidPassword').message }}
+          </ng-container>          
+        </ng-template>
+      </nz-form-item>  
+
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="passwordConfirmationErrorTpl">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="passwordConfirmation" placeholder="Confirm Password" />
+          </nz-input-group>
+        </nz-form-control>
+        <ng-template #passwordConfirmationErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please confirm your password!
+          </ng-container>
+          <ng-container *ngIf="!control.hasError('required') && control.hasError('mismatch')">
+            Passwords do not match!
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+
+      <button nz-button class="sign-up-form-button sign-up-form-margin" [nzType]="'primary'" [disabled]="validateForm.invalid">Sign up</button>
+      Or
+      <a class="link-underline" routerLink="/auth/login">login now!</a>
+    </form>
+  </div>
+</div>

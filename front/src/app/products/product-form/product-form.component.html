@@ -1,0 +1,98 @@
+<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+  <div nz-row [nzGutter]="[16, 16]">
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Name</nz-form-label>
+        <nz-form-control nzErrorTip="Please input product name!">
+          <nz-input-group nzPrefixIcon="tag">
+            <input type="text" nz-input formControlName="name" placeholder="Name" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="24">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Description</nz-form-label>
+        <nz-form-control nzErrorTip="Please input product description!">
+          <textarea
+            nz-input
+            formControlName="description"
+            placeholder="Description"
+            [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Price</nz-form-label>
+        <nz-form-control nzErrorTip="Please input product price!">
+          <nz-space nzDirection="vertical" style="width: 100%">
+            <nz-input-number-group *nzSpaceItem nzPrefix="$" style="width: 100%">
+              <nz-input-number
+                [nzMin]="0"
+                [nzStep]="1"
+                placeholder="Price"
+                formControlName="price"
+              ></nz-input-number>
+            </nz-input-number-group>
+          </nz-space>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Stock</nz-form-label>
+        <nz-form-control nzErrorTip="Please input product stock!">
+          <nz-space nzDirection="vertical" style="width: 100%">
+            <nz-input-number-group *nzSpaceItem nzPrefix="#" style="width: 100%">
+              <nz-input-number
+                [nzMin]="0"
+                [nzStep]="1"
+                [nzPrecision]="0"
+                placeholder="Stock"
+                formControlName="stock"
+              />
+            </nz-input-number-group>
+          </nz-space>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Status</nz-form-label>
+        <nz-form-control nzErrorTip="Please select status!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Select status"
+            class="d-flex"
+            formControlName="status"
+          >
+            <nz-option
+              *ngFor="let status of statuses"
+              [nzValue]="status.code"
+              [nzLabel]="status.name"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="validateForm.invalid"
+      class="d-flex align-items-center justify-content-center"
+    >
+      <span nz-icon [nzType]="product?.id ? 'reload' : 'save'"></span>
+      {{ product?.id ? 'Update' : 'Create' }}
+    </button>
+  </div>
+</form>

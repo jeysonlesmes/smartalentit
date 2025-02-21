@@ -1,0 +1,21 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Analytics</h1>
+</div>
+
+<div class="mt-4" *ngIf="summary">
+  <div nz-row [nzGutter]="[16, 16]">
+    <div nz-col nzSpan="24" nzSm="12">
+      <h5>Number of purchases in the last month</h5>
+      <p>
+        {{ summary.total }}
+      </p>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <h5>Amount</h5>
+      <p>
+        {{ summary.amount | currency }}
+      </p>
+    </div>
+  </div>
+</div>

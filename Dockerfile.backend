@@ -1,0 +1,11 @@
+FROM node:18.15.0-alpine3.17
+RUN npm install -g pnpm
+WORKDIR /usr/src/app
+COPY ./back/package.json ./
+RUN pnpm install
+COPY ./back .
+RUN pnpm run build
+ENV NODE_ENV="production"
+EXPOSE 3000
+USER root
+CMD ["pnpm", "run", "start:prod"]

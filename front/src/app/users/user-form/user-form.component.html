@@ -1,0 +1,110 @@
+<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+  <div nz-row [nzGutter]="[16, 16]">
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Name</nz-form-label>
+        <nz-form-control nzErrorTip="Please input name!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="name" placeholder="Name" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Email</nz-form-label>
+        <nz-form-control nzErrorTip="Please input email!">
+          <nz-input-group nzPrefixIcon="mail">
+            <input type="text" nz-input formControlName="email" placeholder="Email" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <nz-form-item>
+        <nz-form-label [nzRequired]="!user || !!validateForm.get('password')!.value.length" nzSpan="24">Password</nz-form-label>
+        <nz-form-control [nzErrorTip]="passwordErrorTpl">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+              (input)="onPasswordChange()"
+            />
+          </nz-input-group>
+        </nz-form-control>
+
+        <ng-template #passwordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input Password!
+          </ng-container>
+
+          <ng-container *ngIf="!control.hasError('required') && control.hasError('invalidPassword')">
+            {{ control.getError('invalidPassword').message }}
+          </ng-container>          
+        </ng-template>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12" *ngIf="!user || validateForm.get('password')!.value.length">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Password confirmation</nz-form-label>
+        <nz-form-control [nzErrorTip]="passwordConfirmationErrorTpl">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              nz-input
+              formControlName="passwordConfirmation"
+              placeholder="Password confirmation"
+            />
+          </nz-input-group>
+        </nz-form-control>
+
+        <ng-template #passwordConfirmationErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please confirm password!
+          </ng-container>
+          <ng-container *ngIf="!control.hasError('required') && control.hasError('mismatch')">
+            Passwords do not match!
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12" *ngIf="setRole">
+      <nz-form-item>
+        <nz-form-label nzRequired nzSpan="24">Role</nz-form-label>
+        <nz-form-control nzErrorTip="Please select role!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Select role"
+            class="d-flex"
+            formControlName="role"
+          >
+            <nz-option
+              *ngFor="let role of roles"
+              [nzValue]="role.code"
+              [nzLabel]="getRoleName(role.code)"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="validateForm.invalid"
+      class="d-flex align-items-center justify-content-center"
+    >
+      <span nz-icon [nzType]="user?.id ? 'reload' : 'save'"></span>
+      {{ user?.id ? 'Update' : 'Create' }}
+    </button>
+  </div>
+</form>

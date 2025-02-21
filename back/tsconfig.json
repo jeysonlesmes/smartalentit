@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,   
+    "paths": {
+      "@shared/*": ["src/shared/*"],
+      "@users/*": ["src/modules/users/*"],
+      "@auth/*": ["src/modules/auth/*"],
+      "@products/*": ["src/modules/products/*"],
+      "@invoices/*": ["src/modules/invoices/*"]
+    }
+  }
+}

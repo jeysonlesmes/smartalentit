@@ -1,0 +1,115 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo d-flex justify-content-center align-items-center">
+      <a>
+        <img src="assets/logo.png" alt="logo">
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter [nzMatchRouterExact]="true" *ngIf="!isAdmin">
+            <a routerLink="/">
+              <span nz-icon nzType="area-chart" nzTheme="outline"></span>
+              Analytics
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter *ngIf="isAdmin">
+            <a routerLink="/users">
+              <span nz-icon nzType="team" nzTheme="outline"></span>
+              Users
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/products">
+              <span nz-icon nzType="tag" nzTheme="outline"></span>
+              Products
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/invoices">
+              <span nz-icon nzType="file-text" nzTheme="outline"></span>
+              Invoices
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter *ngIf="!isAdmin">
+            <a routerLink="/shopping-cart">
+              <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
+              {{ shoppingCartLabel }}
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen [nzTitle]="username" nzIcon="user">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/profile">
+              <span nz-icon nzType="user" nzTheme="outline"></span>
+              Profile
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a (click)="logout()">
+              <span nz-icon nzType="logout" nzTheme="outline"></span>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header d-flex justify-content-between align-items-center">
+        <span class="header-trigger d-flex" (click)="isCollapsed = !isCollapsed">
+            <span class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+        </span>
+
+        <div class="user-menu d-flex column-gap-1 me-4">
+          <a
+            *ngIf="!isAdmin"
+            nz-button
+            class="d-flex justify-content-center align-items-center text-decoration-none"
+            routerLink="/shopping-cart"
+            nzType="primary"
+          >
+            <i nz-icon nzType="shopping-cart"></i>
+            <span *ngIf="shoppingCartProducts">({{ shoppingCartProducts }})</span>
+          </a>
+
+          <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+            <span nz-dropdown>
+              <span style="margin-right: 8px;">{{ username }}</span>
+              <i nz-icon nzType="user"></i>
+            </span>
+          </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <a nz-menu-item class="text-decoration-none" routerLink="/profile">
+                <i nz-icon nzType="user"></i> Profile
+              </a>
+              <li nz-menu-item (click)="logout()">
+                <i nz-icon nzType="logout"></i> Logout
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <div class="p-4">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,95 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Product's details</h1>
+
+  <a
+    nz-button
+    nzType="link"
+    class="d-flex align-items-center justify-content-center text-decoration-none"
+    routerLink="/products"
+  >
+    <span nz-icon nzType="double-left"></span>
+    Back
+  </a>
+</div>
+
+<div class="mt-4" *ngIf="product">
+  <nz-card [nzTitle]="!editing ? product.name : 'Editing'" [nzExtra]="extraTemplate">
+    <app-product-info
+      *ngIf="!editing"
+      [product]="product"
+    ></app-product-info>
+
+    <app-product-form
+      *ngIf="editing"
+      [product]="product"
+      (save)="onEditChange($event)"
+    ></app-product-form>
+  </nz-card>
+
+  <ng-template #extraTemplate>
+    <div class="d-flex column-gap-1">
+      <ng-container *ngIf="!editing && authService.isAdmin()">
+        <button
+          nz-button
+          nzType="default"
+          nzShape="round"
+          class="d-flex align-items-center justify-content-center"
+          (click)="edit()"
+        >
+          <span nz-icon nzType="edit"></span>
+          Edit
+        </button>
+    
+        <button
+          nz-button
+          nz-popconfirm
+          [nzPopconfirmTitle]="'Are you sure you want to delete the product: ' + product.name + '?'"
+          nzOkText="Sure, delete"
+          nzCancelText="Cancel"
+          [nzOkDanger]="true"
+          (nzOnConfirm)="delete(product.id)"
+          nzType="primary"
+          nzShape="round"
+          nzDanger
+          class="d-flex align-items-center justify-content-center"
+        >
+          <span nz-icon nzType="delete"></span>
+          Delete
+        </button>
+      </ng-container>
+
+      <button
+        *ngIf="editing"
+        nz-button
+        nzType="default"
+        nzShape="round"
+        class="d-flex align-items-center justify-content-center"
+        (click)="cancelEdition()"
+      >
+        <span nz-icon nzType="close-circle"></span>
+        Cancel edition
+      </button>
+
+      <ng-container *ngIf="!authService.isAdmin()">
+        <button              
+          nz-button
+          nzType="primary"
+          class="d-flex align-items-center justify-content-center"
+          (click)="shoppingCartService.add(product)"
+        >
+          <span nz-icon nzType="plus"></span>
+          Add to cart
+        </button>
+
+        <nz-tag
+          *ngIf="shoppingCartService.getProduct(product.id)"
+          [nzColor]="'orange'"
+          class="d-flex justify-content-center align-items-center cursor-pointer"
+          (click)="goToShoppingCart()"
+        >
+          In cart! x{{ shoppingCartService.getProduct(product.id)!.quantity }}
+        </nz-tag>
+      </ng-container>
+    </div>
+  </ng-template>
+</div>

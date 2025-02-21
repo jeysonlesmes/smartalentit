@@ -1,0 +1,75 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Invoice's details</h1>
+
+  <a
+    nz-button
+    nzType="link"
+    class="d-flex align-items-center justify-content-center text-decoration-none"
+    routerLink="/invoices"
+  >
+    <span nz-icon nzType="double-left"></span>
+    Back
+  </a>
+</div>
+
+<div class="mt-4" *ngIf="invoice">
+  <div nz-row [nzGutter]="[16, 16]" *ngIf="invoice">
+    <div nz-col nzSpan="24" nzSm="12" *ngIf="authService.isAdmin()">
+      <h5>User</h5>
+      <div class="d-flex flex-column">
+        <a
+          [routerLink]="'/users/' + invoice.user.id"
+          target="_blank"
+        >{{ invoice.user.name }}</a>
+        <span>{{ invoice.user.email }}</span>
+      </div>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="12">
+      <h5>Total</h5>
+      <p>
+        {{ invoice.total | currency }}
+      </p>
+    </div>
+  
+    <div nz-col nzSpan="24" nzSm="12">
+      <h5>Creation date</h5>
+      <p>
+        {{ invoice.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}
+      </p>
+    </div>
+
+    <div nz-col nzSpan="24" nzSm="24">
+      <h5>Products</h5>
+      <div>
+        <nz-table
+          #basicTable
+          [nzData]="invoice.products"
+          [nzFrontPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Unit price</th>
+              <th>Total price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of basicTable.data">
+              <td>
+                <a
+                  [routerLink]="'/products/' + product.id"
+                  target="_blank"
+                >{{ product.name }}</a>
+              </td>
+              <td>{{product.quantity}}</td>
+              <td>{{product.unitPrice | currency }}</td>
+              <td>{{product.totalPrice | currency }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</div>

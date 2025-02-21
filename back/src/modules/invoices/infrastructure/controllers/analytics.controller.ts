@@ -20,9 +20,9 @@ export class AnalyticsController {
       throw new ForbiddenException("User can't get other users analytics");
     }
 
-    const now = new Date();
-    const startDate = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-    const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endDate = new Date();
+    const startDate = new Date(endDate);
+    startDate.setMonth(startDate.getMonth() - 1);
 
     return this.commandQueryBus.send(
       new GetSummaryInvoicesQuery(
